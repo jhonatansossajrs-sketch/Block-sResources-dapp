@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  app:
+    image: mcr.microsoft.com/devcontainers/rust:1-1-bullseye
+    volumes:
+      - ..:/workspace:cached
+    command: sleep infinity
+  soroban-rpc:
+    image: stellar/quickstart:soroban-dev
+    environment:
+      - STELLAR_RPC_NETWORK_PASSPHRASE=Test SDF Network ; September 2015
+      - STELLAR_DATABASE_URL=postgres://postgres:postgres@db:5432/soroban
+    ports:
+      - "8000:8000"
