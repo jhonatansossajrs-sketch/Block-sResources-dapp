@@ -1,5 +1,5 @@
 {
-  "name": "Soroban v22.0.2 + Rust 1.82 + Node 20",
+  "name": "Stellar CLI (Soroban) v23.1.2 + Rust 1.82 + Node 20",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
   "features": {
     "ghcr.io/devcontainers/features/rust:1": {
@@ -9,12 +9,7 @@
       "version": "20"
     }
   },
-  "postCreateCommand": "
-    curl -L https://soroban.stellar.org/install.sh | bash -s -- v22.0.2 &&
-    echo 'export PATH=\"$HOME/.soroban/bin:$PATH\"' >> ~/.bashrc &&
-    rustup target add wasm32v1-none &&
-    cd contracts/blocks_resources && cargo update
-  ",
+  "postCreateCommand": "echo '=== Iniciando instalación de Stellar CLI (Soroban) v23.1.2 ===' && curl -sSfL https://stellar-cli.stellar.org/install.sh | bash -s -- v23.1.2 && echo 'export PATH=\"$HOME/.stellar-cli/bin:$PATH\"' >> ~/.bashrc && source ~/.bashrc && echo '=== Verificando Stellar CLI... ===' && stellar --version && rustup target add wasm32v1-none && echo '=== Actualizando Cargo deps... ===' && cd contracts/blocks_resources && cargo update && echo '=== Instalación completada! ==='",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -24,10 +19,14 @@
         "ms-vscode.cpptools"
       ],
       "settings": {
-        "rust-analyzer.cargo.target": "wasm32v1-none"
+        "rust-analyzer.cargo.target": "wasm32v1-none",
+        "terminal.integrated.defaultProfile.linux": "bash"
       }
     }
   },
   "forwardPorts": [3000, 8000],
-  "remoteUser": "vscode"
+  "remoteUser": "vscode",
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind"
+  ]
 }
