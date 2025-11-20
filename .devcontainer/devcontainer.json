@@ -1,0 +1,23 @@
+{
+  "name": "Soroban Full-Stack Dev (2025)",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "..",
+  "features": {
+    "ghcr.io/devcontainers/features/rust:1": { "version": "1.80.0" },
+    "ghcr.io/devcontainers/features/node:1": { "version": "20" }
+  },
+  "postCreateCommand": "cd contracts && curl -sSfL https://soroban.stellar.org/install.sh | bash -s -- --test && rustup target add wasm32v1-none && cd ../frontend && npm ci",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "rust-lang.rust-analyzer",
+        "vadimcn.vscode-lldb",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss"
+      ],
+      "forwardPorts": [3000, 8000]
+    }
+  },
+  "remoteUser": "vscode"
+}
