@@ -1,23 +1,33 @@
 {
-  "name": "Soroban Full-Stack Dev (2025)",
-  "dockerComposeFile": "../docker-compose.yml",
-  "service": "app",
-  "workspaceFolder": "..",
+  "name": "Soroban v22.0.2 + Rust 1.82 + Node 20",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
   "features": {
-    "ghcr.io/devcontainers/features/rust:1": { "version": "1.80.0" },
-    "ghcr.io/devcontainers/features/node:1": { "version": "20" }
+    "ghcr.io/devcontainers/features/rust:1": {
+      "version": "1.82.0"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20"
+    }
   },
-  "postCreateCommand": "cd contracts && curl -sSfL https://soroban.stellar.org/install.sh | bash -s -- --test && rustup target add wasm32v1-none && cd ../frontend && npm ci",
+  "postCreateCommand": "
+    curl -L https://soroban.stellar.org/install.sh | bash -s -- v22.0.2 &&
+    echo 'export PATH=\"$HOME/.soroban/bin:$PATH\"' >> ~/.bashrc &&
+    rustup target add wasm32v1-none &&
+    cd contracts/blocks_resources && cargo update
+  ",
   "customizations": {
     "vscode": {
       "extensions": [
         "rust-lang.rust-analyzer",
         "vadimcn.vscode-lldb",
         "esbenp.prettier-vscode",
-        "bradlc.vscode-tailwindcss"
+        "ms-vscode.cpptools"
       ],
-      "forwardPorts": [3000, 8000]
+      "settings": {
+        "rust-analyzer.cargo.target": "wasm32v1-none"
+      }
     }
   },
+  "forwardPorts": [3000, 8000],
   "remoteUser": "vscode"
 }
